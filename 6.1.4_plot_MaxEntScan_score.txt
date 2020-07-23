@@ -1,0 +1,38 @@
+
+options(width=250)
+exon <- read.table("Result/06_RSexon/RSexon_MaxEntScan_score_merged.xls",header=T, sep="\t",row.names=1)
+exon
+site <- read.table("Result/06_RSexon/RS_sites_MaxEntScan_score_merged.xls",header=T, sep="\t",row.names=1)
+site
+
+png("Result/06_RSexon/MaxEntScan_score_plot_MAXENT5.png",height=400,width=600)
+plot(jitter(site$MAXENT5),jitter(site$MAXENT3),pch=21,cex=1.5,col="deeppink",bg="lightpink",
+     xlim=c(-12,12),ylim=c(-6,12),xlab="Score (RS site)", ylab="Score (Down 5' SS)")
+points(exon$MAXENT5,exon$MAXENT3,pch=17,col="seagreen",cex=1.5)
+dev.off()
+
+t.test(site$MAXENT5,site$MAXENT3,alternative="greater") ## p-value = 5.89e-06
+t.test(exon$MAXENT5,exon$MAXENT3,alternative="less") ## p-value = 7.899e-06
+
+png("Result/06_RSexon/MaxEntScan_score_plot_MDD5.png")
+plot(exon$MDD5,exon$MDD3,xlim=c(-12,17),ylim=c(-12,17),xlab="Score (RS site)", ylab="Score (Down 5' SS)")
+points(site$MDD5,site$MDD3,pch=19,col="red")
+abline(a = 0, b = 1, col = 2)
+dev.off()
+
+
+png("Result/06_RSexon/MaxEntScan_score_plot_MM5.png")
+plot(exon$MM5,exon$MM3,xlim=c(-12,17),ylim=c(-12,17),xlab="Score (RS site)", ylab="Score (Down 5' SS)")
+points(site$MM5,site$MM3,pch=19,col="red")
+abline(a = 0, b = 1, col = 2)
+dev.off()
+
+
+png("Result/06_RSexon/MaxEntScan_score_plot_WMM5.png")
+plot(exon$WMM5,exon$WMM3,xlim=c(-12,17),ylim=c(-12,17),xlab="Score (RS site)", ylab="Score (Down 5' SS)")
+points(site$WMM5,site$WMM3,pch=19,col="red")
+abline(a = 0, b = 1, col = 2)
+dev.off()
+
+
+

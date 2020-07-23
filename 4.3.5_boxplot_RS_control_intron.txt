@@ -1,0 +1,63 @@
+
+
+total <- read.table("Result/04_RS_intron/Expressed_gene_intron_length.xls",header=T,row.names=1,sep="\t")
+
+rsintron <- total[c("chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1","chr9:27791447-28403796:ENSMUSG00000062257_Opcml_intron1",
+                    "chr16:66953335-67620170:ENSMUSG00000064115_Cadm2_intron1","chr10:69534285-69706369:ENSMUSG00000069601_Ank3_intron3",
+                    "chr14:119139119-119868885:ENSMUSG00000053465_Hs6st3_intron1","chr9:49569901-49798677:ENSMUSG00000039542_Ncam1_intron1",
+                    "chr13:109260946-109442182:ENSMUSG00000021699_Pde4d_intron5","chr16:74046938-74352550:ENSMUSG00000052516_Robo2_intron2",
+                    "chr9:47530506-47722806:ENSMUSG00000032076_Cadm1_intron1","chr13:109581713-109632779:ENSMUSG00000021699_Pde4d_intron7",
+                    "chr13:109442354-109581404:ENSMUSG00000021699_Pde4d_intron6","chr16:39984728-40786000:ENSMUSG00000061080_Lsamp_intron1",
+                    "chr16:40786061-41532857:ENSMUSG00000061080_Lsamp_intron2","chr7:84003422-84086257:ENSMUSG00000052353_Cemip_intron1",
+                    "chr11:33651573-33843129:ENSMUSG00000053519_Kcnip1_intron1","chr6:93943321-94283009:ENSMUSG00000045095_Magi1_intron1",
+                    "chr8:54775423-54886906:ENSMUSG00000039375_Wdr17_intron2","chr2:179444812-179780253:ENSMUSG00000000305_Cdh4_intron2",
+                    "chr9:48233283-48354986:ENSMUSG00000044229_Nxpe4_intron2","chr3:29153602-29357144:ENSMUSG00000063600_Egfem1_intron6",
+                    "chrX:51471407-51679889:ENSMUSG00000062184_Hs6st2_intron2"),]
+rsintron
+
+ctrlintron <- total[c("chr8:32009452-32883515:ENSMUSG00000062991_Nrg1_intron1",
+                      "chr6:80025910-80808967:ENSMUSG00000052581_Lrrtm4_intron3","chr8:37953058-38660724:ENSMUSG00000039539_Sgcz_intron1",
+                      "chr6:45060387-45653993:ENSMUSG00000039419_Cntnap2_intron2","chr9:68653973-69196074:ENSMUSG00000032238_Rora_intron1",
+                      "chr8:9233106-9770076:ENSMUSG00000079157_Fam155a_intron1","chr6:21217414-21714134:ENSMUSG00000060882_Kcnd2_intron1",
+                      "chr2:141024142-141515203:ENSMUSG00000068205_Macrod2_intron8","chr14:124192903-124676509:ENSMUSG00000025551_Fgf14_intron1",
+                      "chr10:32410336-32889642:ENSMUSG00000069670_Nkain2_intron1","chr3:25440078-25912641:ENSMUSG00000063887_Nlgn1_intron6",
+                      "chrX:87419303-87890153:ENSMUSG00000052372_Il1rapl1_intron2","chr8:57962565-58427699:ENSMUSG00000096914_Galntl6_intron8",
+                      "chr14:39012099-39471971:ENSMUSG00000041014_Nrg3_intron1","chr6:77143944-77598745:ENSMUSG00000063063_Ctnna2_intron9",
+                      "chr5:19227590-19678652:ENSMUSG00000040003_Magi2_intron1","chr3:68055399-68494573:ENSMUSG00000102422_Gm21949_intron4",
+                      "chr7:123983894-124396825:ENSMUSG00000078591_Hs3st4_intron1","chr6:96115755-96523334:ENSMUSG00000059187_Fam19a1_intron2",
+                      "chr6:63503448-63908865:ENSMUSG00000071424_Grid2_intron2","chr3:68065008-68468182:ENSMUSG00000027777_Schip1_intron1",
+                      "chr1:15313031-15709484:ENSMUSG00000092083_Kcnb2_intron2","chr18:71955075-72350355:ENSMUSG00000060534_Dcc_intron1",
+                      "chr10:31951320-32329764:ENSMUSG00000069670_Nkain2_intron5","chr1:21593615-21961180:ENSMUSG00000028033_Kcnq5_intron1",
+                      "chr1:68740534-69107674:ENSMUSG00000062209_Erbb4_intron1","chr2:141810664-142176593:ENSMUSG00000068205_Macrod2_intron11",
+                      "chr7:91091049-91449753:ENSMUSG00000052572_Dlg2_intron7","chr16:41533532-41888914:ENSMUSG00000061080_Lsamp_intron3",
+                      "chr12:66868807-67220969:ENSMUSG00000034912_Mdga2_intron1","chr14:38668292-39011968:ENSMUSG00000041014_Nrg3_intron2",
+                      "chr12:82651913-82985294:ENSMUSG00000021219_Rgs6_intron6","chr4:103619746-103951833:ENSMUSG00000028519_Dab1_intron1",
+                      "chr8:28891511-29219241:ENSMUSG00000063626_Unc5d_intron1","chr2:42323717-42649877:ENSMUSG00000049252_Lrp1b_intron2",
+                      "chr16:6487867-6809206:ENSMUSG00000008658_Rbfox1_intron4",
+                      "chr8:17216824-17534889:ENSMUSG00000060924_Csmd1_intron1","chr8:16710703-17027224:ENSMUSG00000060924_Csmd1_intron3",
+                      "chrX:59250967-59567139:ENSMUSG00000031137_Fgf13_intron3","chr2:62877358-63182055:ENSMUSG00000059742_Kcnh7_intron2",
+                      "chr3:13473466-13776824:ENSMUSG00000039717_Ralyl_intron2"),]
+ctrlintron
+
+
+data <- data.frame(Type=c(rep("intron",times=length(total[,1])), rep("RS_intron", times=length(rsintron[,1])), rep("Ctrl", times=length(ctrlintron[,1]))),
+                   Length=c(total$Intron_length, rsintron$Intron_length, ctrlintron$Intron_length))
+data
+
+png("Result/04_RS_intron/Boxplot_RS_control_intron_Length.png",width = 480, height = 600)
+boxplot(data$Length~factor(data$Type,levels=c("intron","RS_intron","Ctrl")), col=rgb(255,184,95,max=255),outcol="grey70", ylim=c(0,1000000))
+dev.off()
+
+
+
+data2 <- data.frame(Type=c(rep("intron",times=length(total[,1])), rep("RS_intron", times=length(rsintron[,1])), rep("Ctrl", times=length(ctrlintron[,1]))),
+                    FPKM=c((total$FPKM1 + total$FPKM2)/2,(rsintron$FPKM1 + rsintron$FPKM2)/2, (ctrlintron$FPKM1 + ctrlintron$FPKM2)/2))
+data2
+
+png("Result/04_RS_intron/Boxplot_RS_ctrl_Gene_FPKM.png",width = 480, height = 600)
+boxplot(data2$FPKM~factor(data2$Type,levels=c("intron","RS_intron","Ctrl")), col=rgb(255,184,95,max=255),outcol="grey70", ylim=c(0,100))
+dev.off()
+
+
+
+

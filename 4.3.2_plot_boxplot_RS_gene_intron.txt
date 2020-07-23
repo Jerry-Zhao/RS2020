@@ -1,0 +1,141 @@
+
+
+total <- read.table("Result/04_RS_intron/Expressed_gene_intron_length.xls",header=T,row.names=1,sep="\t")
+
+rsintron <- total[c("chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1",
+                    "chr9:27791447-28403796:ENSMUSG00000062257_Opcml_intron1",
+                    "chr16:66953335-67620170:ENSMUSG00000064115_Cadm2_intron1",
+                    "chr10:69534285-69706369:ENSMUSG00000069601_Ank3_intron3",
+                    "chr14:119139119-119868885:ENSMUSG00000053465_Hs6st3_intron1",
+                    "chr9:49569901-49798677:ENSMUSG00000039542_Ncam1_intron1",
+                    "chr13:109260946-109442182:ENSMUSG00000021699_Pde4d_intron5",
+                    "chr16:74046938-74352550:ENSMUSG00000052516_Robo2_intron2",
+                    "chr9:47530506-47722806:ENSMUSG00000032076_Cadm1_intron1",
+                    "chr13:109581713-109632779:ENSMUSG00000021699_Pde4d_intron7",
+                    "chr13:109442354-109581404:ENSMUSG00000021699_Pde4d_intron6",
+                    "chr16:39984728-40786000:ENSMUSG00000061080_Lsamp_intron1",
+                    "chr16:40786061-41532857:ENSMUSG00000061080_Lsamp_intron2",
+                    "chr11:33651573-33843129:ENSMUSG00000053519_Kcnip1_intron1",
+                    "chr2:179444812-179780253:ENSMUSG00000000305_Cdh4_intron2",
+                    "chrX:51471407-51679889:ENSMUSG00000062184_Hs6st2_intron2"),]
+
+rsintron
+summary(rsintron$Intron_length)
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#  51067  188977  267195  382080  625972  801273
+
+
+data <- data.frame(Type=c(rep("intron",times=length(total[,1])), rep("RS_intron", times=length(rsintron[,1]))),
+                   Length=c(total$Intron_length, rsintron$Intron_length))
+data
+
+png("Result/04_RS_intron/Boxplot_RS_intron_Length.png",width = 480, height = 600)
+boxplot(data$Length~factor(data$Type,levels=c("intron","RS_intron")), col=rgb(255,184,95,max=255),outcol="grey70", ylim=c(0,1000000))
+dev.off()
+
+t.test(total$Intron_length, rsintron$Intron_length,alternative="less") ## Intron < RSintron
+# 	Welch Two Sample t-test
+# 
+# data:  total$Intron_length and rsintron$Intron_length
+# t = -5.8953, df = 15, p-value = 1.471e-05
+# alternative hypothesis: true difference in means is less than 0
+# 95 percent confidence interval:
+#       -Inf -264583.7
+# sample estimates:
+#  mean of x  mean of y 
+#   5520.477 382079.750 
+
+
+
+
+
+
+
+
+
+
+
+total <- read.table("Result/04_RS_intron/Expressed_gene_length.xls",header=T,row.names=1,sep="\t")
+total[1:5,]
+
+rsgene <- total[c("ENSMUSG00000059974_Ntm",
+                  "ENSMUSG00000062257_Opcml",
+                  "ENSMUSG00000064115_Cadm2",
+                  "ENSMUSG00000069601_Ank3",
+                  "ENSMUSG00000053465_Hs6st3",
+                  "ENSMUSG00000039542_Ncam1",
+                  "ENSMUSG00000021699_Pde4d",
+                  "ENSMUSG00000052516_Robo2",
+                  "ENSMUSG00000032076_Cadm1",
+                  "ENSMUSG00000061080_Lsamp",
+                  "ENSMUSG00000053519_Kcnip1",
+                  "ENSMUSG00000000305_Cdh4",
+                  "ENSMUSG00000062184_Hs6st2"),]
+rsgene
+
+data <- data.frame(Type=c(rep("Gene",times=length(total[,1])), rep("RS_gene", times=length(rsgene[,1]))),
+                   Length=c(total$Length, rsgene$Length))
+data
+
+png("Result/04_RS_intron/Boxplot_RS_gene_Length.png",width = 480, height = 600)
+boxplot(data$Length~factor(data$Type,levels=c("Gene","RS_gene")), col=rgb(255,184,95,max=255),outcol="grey70", ylim=c(0,1700000))
+dev.off()
+
+t.test(total$Length, rsgene$Length,alternative="less") ## Gene < RSgene
+# 	Welch Two Sample t-test
+# 
+# data:  total$Length and rsgene$Length
+# t = -4.7683, df = 12.001, p-value = 0.0002287
+# alternative hypothesis: true difference in means is less than 0
+# 95 percent confidence interval:
+#       -Inf -464056.4
+# sample estimates:
+# mean of x mean of y 
+#  58129.16 799164.15 
+
+
+
+data2 <- data.frame(Type=c(rep("Gene",times=length(total[,1])), rep("RS_gene", times=length(rsgene[,1]))),
+                   Length=c((total$FPKM1 + total$FPKM2)/2, (rsgene$FPKM1 + rsgene$FPKM2)/2 ))
+data2
+png("Result/04_RS_intron/Boxplot_RS_gene_FPKM.png",width = 480, height = 600)
+boxplot(data2$Length~factor(data2$Type,levels=c("Gene","RS_gene")), col=rgb(255,184,95,max=255),outcol="grey70", ylim=c(0,100))
+dev.off()
+
+t.test((total$FPKM1 + total$FPKM2)/2, (rsgene$FPKM1 + rsgene$FPKM2)/2,alternative="less") ## Gene < RSgene
+# 	Welch Two Sample t-test
+# 
+# data:  (total$FPKM1 + total$FPKM2)/2 and (rsgene$FPKM1 + rsgene$FPKM2)/2
+# t = -2.8261, df = 12.348, p-value = 0.00746
+# alternative hypothesis: true difference in means is less than 0
+# 95 percent confidence interval:
+#       -Inf -6.918006
+# sample estimates:
+# mean of x mean of y 
+#  20.06373  38.71923 
+
+
+
+
+total2 <- total[total$Length>100000,]
+data3 <- data.frame(Type=c(rep("Long_gene",times=length(total2[,1])), rep("RS_gene", times=length(rsgene[,1]))),
+                   Length=c((total2$FPKM1 + total2$FPKM2)/2, (rsgene$FPKM1 + rsgene$FPKM2)/2 ))
+data3
+png("Result/04_RS_intron/Boxplot_RS_LongGene_FPKM.png",width = 480, height = 600)
+boxplot(data3$Length~factor(data3$Type,levels=c("Long_gene","RS_gene")), col=rgb(255,184,95,max=255),outcol="grey70", ylim=c(0,100))
+dev.off()
+
+t.test((total2$FPKM1 + total2$FPKM2)/2,(rsgene$FPKM1 + rsgene$FPKM2)/2,alternative="less") ## LongGene < RSgene 
+#	Welch Two Sample t-test
+# 
+# data:  (total2$FPKM1 + total2$FPKM2)/2 and (rsgene$FPKM1 + rsgene$FPKM2)/2
+# t = -2.5981, df = 12.204, p-value = 0.01152
+# alternative hypothesis: true difference in means is less than 0
+# 95 percent confidence interval:
+#       -Inf -5.385607
+# sample estimates:
+# mean of x mean of y 
+#  21.61946  38.71923 
+
+
+

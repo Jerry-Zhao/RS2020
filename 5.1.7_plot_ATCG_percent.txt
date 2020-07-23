@@ -1,0 +1,30 @@
+
+total <- read.table("Result/05_motif/RS_sites_20up_ATCG.xls",header=T, sep="\t")
+total[1:12,]
+
+png("Result/05_motif/RS_sites_20up_ATCG_percent_boxplot.png",width = 800, height = 600)
+boxplot(total$Percent~factor(total$NT, levels=c("T","C","A","G","TC","AG")),ylim=c(0,1),col=c(rep(rgb(25,179,177,max=255),4),"gold","gold"))
+dev.off()
+
+
+
+
+total <- read.table("Result/05_motif/Hs6st3_intron1_20up_ATCG.xls",header=T, sep="\t")
+total[1:12,]
+
+png("Result/05_motif/Hs6st3_intron1_20up_ATCG_percent_boxplot.png",width = 800, height = 600)
+boxplot(total$Percent~factor(total$NT, levels=c("T","C","A","G","TC","AG")),ylim=c(0,1),col=c(rep(rgb(25,179,177,max=255),4),"gold","gold"))
+dev.off()
+
+
+
+
+total <- read.table("Result/05_motif/RSintrons_nonRS_20up_ATCG.xls",header=T, sep="\t")
+total[1:12,]
+
+png("Result/05_motif/RSintrons_nonRS_20up_ATCG_percent_boxplot.png",width = 800, height = 600)
+boxplot(total$Percent~factor(total$NT, levels=c("T","C","A","G","TC","AG")),ylim=c(0,1),col=c(rep(rgb(25,179,177,max=255),4),"gold","gold"))
+dev.off()
+
+
+

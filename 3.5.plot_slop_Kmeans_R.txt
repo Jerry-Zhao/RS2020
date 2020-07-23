@@ -1,0 +1,134 @@
+
+## K-means 
+nuclear1_raw <- read.table("Result/03_ML/GSE83474_Male_cortex_6w_WT_nuclear_RNAseq_rep1_intronSlop_FPKM50k.xls",header=T,sep="\t",row.names=1)
+nuclear2_raw <- read.table("Result/03_ML/GSE83474_Male_cortex_6w_WT_nuclear_RNAseq_rep2_intronSlop_FPKM50k.xls",header=T,sep="\t",row.names=1)
+
+## convert raw count into RPM, noemalized to sequencing depth
+nuclear1 <- round((nuclear1_raw[,2:1001]*1000000)/39235398, 2)
+nuclear2 <- round((nuclear2_raw[,2:1001]*1000000)/215104451, 2)
+
+#### merge two replicates 
+nuclear3 <- nuclear2[rownames(nuclear1),]
+nuclear_merge <- (nuclear1 + nuclear2)/2
+nuclear1[1:5,1:5]
+nuclear3[1:5,1:5]
+nuclear_merge[1:5,1:5]
+
+namelist <- c("chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1",
+              "chr9:27791447-28403796:ENSMUSG00000062257_Opcml_intron1",
+              "chr16:66953335-67620170:ENSMUSG00000064115_Cadm2_intron1",
+              "chr10:69534285-69706369:ENSMUSG00000069601_Ank3_intron3",
+              "chr14:119139119-119868885:ENSMUSG00000053465_Hs6st3_intron1",
+              "chr9:49569901-49798677:ENSMUSG00000039542_Ncam1_intron1",
+              "chr13:109581713-109632779:ENSMUSG00000021699_Pde4d_intron7",
+              "chr13:109442354-109581404:ENSMUSG00000021699_Pde4d_intron6",
+              "chr13:109260946-109442182:ENSMUSG00000021699_Pde4d_intron5",
+              "chr16:74046938-74352550:ENSMUSG00000052516_Robo2_intron2",
+              "chr9:47530506-47722806:ENSMUSG00000032076_Cadm1_intron1",
+              "chr16:39984728-40786000:ENSMUSG00000061080_Lsamp_intron1",
+              "chr16:40786061-41532857:ENSMUSG00000061080_Lsamp_intron2",
+              "chr7:84003422-84086257:ENSMUSG00000052353_Cemip_intron1",
+              "chr6:93943321-94283009:ENSMUSG00000045095_Magi1_intron1",
+              "chr8:54775423-54886906:ENSMUSG00000039375_Wdr17_intron2",
+              "chr2:179444812-179780253:ENSMUSG00000000305_Cdh4_intron2",
+              "chr9:48233283-48354986:ENSMUSG00000044229_Nxpe4_intron2",
+              "chr3:29153602-29357144:ENSMUSG00000063600_Egfem1_intron6",
+              "chrX:51471407-51679889:ENSMUSG00000062184_Hs6st2_intron2",
+              "chr11:33651573-33843129:ENSMUSG00000053519_Kcnip1_intron1")
+
+
+
+#### K-means
+slop <- kmeans(nuclear_merge,4)
+table(slop$cluster)
+slop$cluster[namelist]
+
+slop1 <- nuclear_merge[names(slop$cluster[slop$cluster==1]),]
+slop2 <- nuclear_merge[names(slop$cluster[slop$cluster==2]),]
+slop3 <- nuclear_merge[names(slop$cluster[slop$cluster==3]),]
+
+mean3 <- data.frame(C1=colMeans(slop1),C2=colMeans(slop2),C3=colMeans(slop3))
+
+plot(mean3$C1,type="l",ylim=c(0,10),lwd=6,col="red")
+lines(mean3$C2,type="l",lwd=6,col="green")
+lines(mean3$C3,type="l",lwd=6,col="blue")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Plot slops
+
+nuclear1_raw <- read.table("Result/03_ML/GSE83474_Male_cortex_6w_WT_nuclear_RNAseq_rep1_intronSlop_FPKM.xls",header=T,sep="\t",row.names=1)
+nuclear2_raw <- read.table("Result/03_ML/GSE83474_Male_cortex_6w_WT_nuclear_RNAseq_rep2_intronSlop_FPKM.xls",header=T,sep="\t",row.names=1)
+cell1_raw <- read.table("Result/03_ML/GSE83474_Male_cortex_6w_WT_wholeCell_RNAseq_rep1_intronSlop_FPKM.xls",header=T,sep="\t",row.names=1)
+cell2_raw <- read.table("Result/03_ML/GSE83474_Male_cortex_6w_WT_wholeCell_RNAseq_rep2_intronSlop_FPKM.xls",header=T,sep="\t",row.names=1)
+
+## convert raw count into RPM, noemalized to sequencing depth 
+nuclear1 <- round((nuclear1_raw[,2:1001]*1000000)/39235398, 2)
+nuclear2 <- round((nuclear2_raw[,2:1001]*1000000)/215104451, 2)
+cell1 <- round((cell1_raw[,2:1001]*1000000)/36257900, 2)
+cell2 <- round((cell2_raw[,2:1001]*1000000)/31442771, 2)
+nuclear1_raw[1:5,1:5]
+nuclear1[1:5,1:5]
+
+
+
+
+plot(1:1000,nuclear1["chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1",],type="h",col="red",ylim=c(0,20))
+lines(1:1000,nuclear2["chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1",],type="h",col="pink",ylim=c(0,20))
+lines(1:1000,cell1["chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1",],type="h",col="grey10",ylim=c(0,20))
+lines(1:1000,cell2["chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1",],type="h",col="grey70",ylim=c(0,20))
+
+plot(1:1000,(nuclear1["chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1",] + nuclear2["chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1",])/2,type="h",col="red",ylim=c(0,20))
+lines(1:1000,(cell1["chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1",] + cell2["chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1",])/2,type="h",col="grey10",ylim=c(0,20))
+
+
+
+plot(1:1000,nuclear2["chr9:29412205-29962844:ENSMUSG00000059974_Ntm_intron1",],type="h",col="red",ylim=c(0,20))
+plot(1:1000,nuclear2["chr9:27791447-28403796:ENSMUSG00000062257_Opcml_intron1",],type="h",col="red",ylim=c(0,20))
+plot(1:1000,nuclear2["chr14:119139119-119868885:ENSMUSG00000053465_Hs6st3_intron1",],type="h",col="red",ylim=c(0,20))
+plot(1:1000,nuclear2["chr9:47530506-47722806:ENSMUSG00000032076_Cadm1_intron1",],type="h",col="red",ylim=c(0,20))
+plot(1:1000,nuclear2["chr16:74046938-74352550:ENSMUSG00000052516_Robo2_intron2",],type="h",col="red",ylim=c(0,20))
+plot(1:1000,nuclear2["chr10:69534285-69706369:ENSMUSG00000069601_Ank3_intron3",],type="h",col="red",ylim=c(0,20))
+plot(1:1000,nuclear2["chr16:66953335-67620170:ENSMUSG00000064115_Cadm2_intron1",],type="h",col="red",ylim=c(0,20))
+plot(1:1000,nuclear2["chr9:49569901-49798677:ENSMUSG00000039542_Ncam1_intron1",],type="h",col="red",ylim=c(0,20))
+plot(1:1000,nuclear2["chr13:109260946-109442182:ENSMUSG00000021699_Pde4d_intron5",],type="h",col="red",ylim=c(0,20))
+
+
+
+#### K-means
+nuclear3 <- nuclear2[rownames(nuclear1),]
+nuclear_merge <- (nuclear1 + nuclear2)/2
+nuclear1[1:5,1:5]
+nuclear3[1:5,1:5]
+nuclear_merge[1:5,1:5]
+
+slop <- kmeans(nuclear_merge,3)
+table(slop$cluster)
+ 
+slop1 <- nuclear_merge[names(slop$cluster[slop$cluster==1]),]
+slop2 <- nuclear_merge[names(slop$cluster[slop$cluster==2]),]
+slop3 <- nuclear_merge[names(slop$cluster[slop$cluster==3]),]
+
+mean3 <- data.frame(C1=colMeans(slop1),C2=colMeans(slop2),C3=colMeans(slop3))
+
+plot(mean3$C1,type="l",ylim=c(0,300),lwd=6,col="red")
+lines(mean3$C2,type="l",lwd=6,col="green")
+lines(mean3$C3,type="l",lwd=6,col="blue")
+
+
+
+

@@ -1,0 +1,34 @@
+library("pheatmap")
+library("RColorBrewer")
+total_old <- read.table("Result/05_motif/RBPmap_40up20down_0.01.xls",sep="\t",header=T,row.names=1)
+dim(total_old)
+png("Result/05_motif/RBPmap_40up20down_0.01.png",width=800,height=400)
+pheatmap(total_old,cluster_rows = FALSE,cluster_cols=FALSE, color = colorRampPalette(brewer.pal(n = 7, name ="Greens"))(40),breaks = seq(0,2,length.out = 40))
+dev.off()
+
+
+library("pheatmap")
+library("RColorBrewer")
+total_old <- read.table("Result/05_motif/RBPmap_40up20down_0.001.xls",sep="\t",header=T,row.names=1)
+dim(total_old)
+png("Result/05_motif/RBPmap_40up20down_0.001.png",width=800,height=400)
+pheatmap(total_old,cluster_rows = FALSE,cluster_cols=FALSE, color = colorRampPalette(brewer.pal(n = 7, name ="Greens"))(40),breaks = seq(0,2,length.out = 40))
+dev.off()
+
+
+
+library("pheatmap")
+library("RColorBrewer")
+total_old <- read.table("Result/05_motif/RBPmap_40up20down_0.0001.xls",sep="\t",header=T,row.names=1)
+dim(total_old)
+total <- total_old[c("PTBP1","U2AF2","CPEB2","CPEB4","HuR","ZC3H14","BRUNOL4","BRUNOL5","RALY","TIA1","TARDBP","A1CF","RBM41","HNRNPC","HNRNPCL1","SRSF3"),]
+total <- total[,20:1]
+png("Result/05_motif/RBPmap_40up20down_0.0001.png",width=800,height=400)
+pheatmap(total,cluster_rows = FALSE,cluster_cols=FALSE, color = colorRampPalette(brewer.pal(n = 7, name ="YlGnBu"))(40),breaks = seq(0,2.5,length.out = 40))
+dev.off()
+
+total2 <- total_old[c("PTBP1","U2AF2","CPEB2","CPEB4","HuR","ZC3H14","BRUNOL4","BRUNOL5","RALY","TIA1"),]
+total2 <- total2[,20:1]
+png("Result/05_motif/RBPmap_40up20down_0.0001_top10.png",width=800,height=400)
+pheatmap(total2,cluster_rows = FALSE,cluster_cols=FALSE, color = colorRampPalette(brewer.pal(n = 7, name ="YlGnBu"))(40),breaks = seq(0,2.5,length.out = 40))
+dev.off()

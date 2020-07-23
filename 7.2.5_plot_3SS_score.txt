@@ -1,0 +1,28 @@
+
+options(width=250)
+site <- read.table("Result/07_predict/Merged_RSsites_percent_3SS_5SS.xls",header=T,sep="\t",row.names=1)
+nonsite <- read.table("Result/07_predict/Merged_Hs6st3_nonRS_percent_3SS_5SS.xls",header=T,sep="\t",row.names=1)
+site
+nonsite[1:5,]
+
+data <- data.frame(Type=c(rep("RS",times=length(site[,1])), rep("nonRS", times=length(nonsite[,1]))),
+                   Score=c(site$SS3_MAXENT, nonsite$SS3_MAXENT))
+data
+png("Result/07_predict/Boxplot_RS_Hs6st3nonRS_3SS_scores.png",width = 480, height = 600)
+boxplot(data$Score~factor(data$Type,levels=c("RS","nonRS")), col=rgb(0,170,160,max=255),outcol="grey70", ylim=c(-40,40))
+dev.off()
+
+t.test(site$SS3_MAXENT,nonsite$SS3_MAXENT,alternative="greater") ## p-value = 1.424e-14
+#	Welch Two Sample t-test
+#
+# data:  site$SS3_MAXENT and nonsite$SS3_MAXENT
+# t = 18.355, df = 20.673, p-value = 1.424e-14
+# alternative hypothesis: true difference in means is greater than 0
+# 95 percent confidence interval:
+#  13.16416      Inf
+# sample estimates:
+# mean of x mean of y 
+# 11.512500 -3.014561 
+
+
+

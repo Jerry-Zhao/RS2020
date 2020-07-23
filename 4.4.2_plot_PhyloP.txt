@@ -1,0 +1,80 @@
+total <- read.table("Result/04_RS_intron/RSsite_phyloP_300updown.xls",header=F,row.names=1,sep="\t")
+total[1:5,]
+
+library(gplots)
+heatmap.2(as.matrix(total),Rowv=F,Colv=F,trace="none",dendrogram="none",scale="none",labRow=NA,labCol=NA,
+          col=colorpanel(6,low="grey85",high="steelblue"),breaks=c(0:6),
+          density.info="none",keysize=1,cexCol=1,margins=c(5,5))
+
+
+heatmap.2(as.matrix(total),Rowv=F,Colv=F,trace="none",dendrogram="none",scale="none",labRow=NA,labCol=NA,
+          col=colorpanel(6,low="grey85",high="steelblue"),breaks=c(0:6)/2,
+          density.info="none",keysize=1,cexCol=1,margins=c(5,5))
+
+total2 <- total[c(
+                  "chr9_-_29674403_Ntm.1",
+                  "chr9_-_49642257_Ncam1.1",
+                  "chr9_-_49719364_Ncam1.1",
+                  "chr9_+_28029505_Opcml.1",
+                  "chr9_+_47633924_Cadm1.1",
+                  "chr10_+_69595048_Ank3.3",
+                  "chr11_-_33718264_Kcnip1.1",
+                  "chr13_+_109333510_Pde4d.5",
+                  "chr13_+_109550007_Pde4d.6",
+                  "chr13_+_109614417_Pde4d.7",
+                  "chr14_+_119537648_Hs6st3.1",
+                  "chr16_-_67142933_Cadm2.1",
+                  "chr16_-_67364247_Cadm2.1",
+                  "chr16_-_74151682_Robo2.2",
+                  "chr16_+_40262266_Lsamp.1",
+                  "chr16_+_40655810_Lsamp.1",
+                  "chr16_+_40979498_Lsamp.2",
+                  "chr16_+_41206970_Lsamp.2",
+                  "chrX_-_51473338_Hs6st2.2",
+                  "chr2_+_179627792_Cdh4.2"),]
+png("Result/04_RS_intron/Heatmap_RSsite_PhyloP_score.png",width = 800, height = 600)
+heatmap.2(as.matrix(total2),Rowv=F,Colv=F,trace="none",dendrogram="none",scale="none",labRow=NA,labCol=NA,
+          col=colorpanel(6,low="grey85",high="steelblue"),breaks=c(0:6)/2,
+          density.info="none",keysize=1,cexCol=1,margins=c(5,5))
+dev.off()
+
+
+
+
+
+
+
+
+
+
+total <- read.table("Result/04_RS_intron/RSsite_phyloP_Placental_300updown.xls",header=F,row.names=1,sep="\t")
+total[1:5,]
+
+library(gplots)
+total2 <- total[c(
+                  "chr9_-_29674403_Ntm.1",
+                  "chr9_-_49642257_Ncam1.1",
+                  "chr9_-_49719364_Ncam1.1",
+                  "chr9_+_28029505_Opcml.1",
+                  "chr9_+_47633924_Cadm1.1",
+                  "chr10_+_69595048_Ank3.3",
+                  "chr11_-_33718264_Kcnip1.1",
+                  "chr13_+_109333510_Pde4d.5",
+                  "chr13_+_109550007_Pde4d.6",
+                  "chr13_+_109614417_Pde4d.7",
+                  "chr14_+_119537648_Hs6st3.1",
+                  "chr16_-_67142933_Cadm2.1",
+                  "chr16_-_67364247_Cadm2.1",
+                  "chr16_-_74151682_Robo2.2",
+                  "chr16_+_40262266_Lsamp.1",
+                  "chr16_+_40655810_Lsamp.1",
+                  "chr16_+_40979498_Lsamp.2",
+                  "chr16_+_41206970_Lsamp.2",
+                  "chrX_-_51473338_Hs6st2.2",
+                  "chr2_+_179627792_Cdh4.2"),]
+png("Result/04_RS_intron/Heatmap_RSsite_PhyloP_Placental_score.png",width = 800, height = 600)
+heatmap.2(as.matrix(total2),Rowv=F,Colv=F,trace="none",dendrogram="none",scale="none",labRow=NA,labCol=NA,
+          col=colorpanel(6,low="grey85",high="steelblue"),breaks=c(0:6)/2,
+          density.info="none",keysize=1,cexCol=1,margins=c(5,5))
+dev.off()
+

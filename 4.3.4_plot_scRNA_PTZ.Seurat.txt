@@ -1,0 +1,67 @@
+
+# BiocManager::install("Seurat")
+# BiocManager::install(c("magrittr","dplyr","tidyr","Matrix","reshape2"))
+
+library(Seurat)
+library(magrittr) ## %>% pipe operator
+library(dplyr)
+library(tidyr)
+library(Matrix)
+library("reshape2")
+library("gplots")
+library("ggplot2")
+packageVersion("Seurat") ## [1] ‘3.1.4’
+
+ptz.pc30 <- readRDS("Result/Jerry_PTZ_SeuratObject_AftertSNE_20181116.rds")
+
+## functions
+### 1.1.6. Vlnplot and Heatmap plot function
+plot_vln<-function(t,my.genes3) {
+  d <- as.matrix(t@data[intersect(my.genes3,rownames(t@data)),])
+  dd <- melt(d,id=row.names)
+  dd <- dd %>% dplyr::rename(gene=Var1,cell=Var2)
+  dd$tree.ident <- t@ident[dd$cell]
+  str(dd$tree.ident)
+  dd$gene <- factor(dd$gene,levels=intersect(my.genes3,rownames(t@data)))
+  ggplot(dd,aes(tree.ident,value,fill=tree.ident))+geom_violin(scale="width",trim=T,alpha=0.8,adjust=1)+facet_wrap(~gene,scales="free_y",
+     ncol=1,strip.position = "right") + theme(strip.background = element_blank(), strip.placement = "outside",axis.text.y=element_blank(),
+     axis.title.y=element_blank(),strip.text.y = element_text(colour = "red", angle = 360,size=10),legend.position="none",panel.grid=element_blank(), 
+     panel.border=element_blank())+theme(axis.text.x = element_text(angle = 45,hjust=1,vjust=1,size=rel(0.9)),legend.position="none") + xlab("")
+}
+
+my.colours= c("#313695", "#4575B4", "#74ADD1", "#ABD9E9", "#E0F3F8", "#FFFFFF","#FEE090", "#FDAE61", "#F46D43", "#D73027", "#A50026")
+plot_heatmap = function(t,my.genes7,my.colours=my.colours,COL=T,ROW=T,DEND="none"){
+  my.genes6 <- intersect(unique(my.genes7),rownames(t@data))
+  Mat <- t@data[unique(my.genes6),]
+  Mat <- as.data.frame(as.matrix(Mat))
+  Mat$gene <- rownames(Mat)
+  Mat <- melt(Mat,id="gene")
+  Mat$cluster <- t@ident[Mat$variable]
+  Mat <- Mat %>% group_by(gene,cluster) %>% dplyr::summarise(meanExp=mean(value)) %>% ungroup
+  Mat <- as.data.frame(Mat)
+  Mat <- dcast(Mat, gene ~ cluster, value.var="meanExp")
+  rownames(Mat) <- Mat$gene
+  Mat <- as.matrix(Mat[,-1])
+  Mat <- t(scale(t(Mat)))
+  Mat <- Mat[unique(my.genes6),levels(t@ident)]
+  Mat <- na.omit(Mat)
+  heatmap.2(Mat,Colv=COL,Rowv=ROW,dendrogram=DEND,scale="none",trace="none",density.info="none",col=my.colours)
+}
+
+
+gene.markers <- c("Flt1","Ctss","Apoe","Gja1","Pdgfra","Mbp","Mog","Opalin","Enpp6","Gad1","Gad2","Sst","Chod1","Pvalb","Ndnf","Vip","Sncg","Slc17a7","Lmo7","Ntng1","Col6a1","Otof","Fam19a1","Ndst4","Bcl6","Vwc2l","Ctgf","Foxp2","Tle4","Nr4a2","Oprk1","Deptor","Tshz2","Rorb","Enpp2","Sema3e","Pld5")
+plot_vln(ptz.pc30, gene.markers)
+
+
+plot_vln(ptz.pc30,c(
+         "Kcnip1","Cdh4","Hs6st2","Hs6st3",
+         "Ntm","Ncam1","Opcml","Cadm2","Cadm1","Lsamp","Ank3","Robo2","Pde4d")) 
+
+
+png("Result/04_RS_intron/Jerry_scRNAseq_RSgene_24Clusters_20200326.png",width = 800, height = 800)
+plot_vln(ptz.pc30,c("Kcnip1","Cdh4","Hs6st2","Hs6st3",
+                    "Ntm","Ncam1","Opcml","Cadm2","Cadm1","Lsamp","Ank3","Robo2","Pde4d"))
+dev.off()
+
+
+

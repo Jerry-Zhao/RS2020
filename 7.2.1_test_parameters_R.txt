@@ -1,0 +1,21 @@
+
+options(width=250)
+site <- read.table("Result/07_predict/Merged_RSsites_percent_3SS_5SS.xls",header=T,sep="\t",row.names=1)
+hs6st3 <- read.table("Result/07_predict/Merged_Hs6st3_nonRS_percent_3SS_5SS.xls",header=T,sep="\t",row.names=1)
+intron <- read.table("Result/07_predict/Merged_RSintrons_nonRS_percent_3SS_5SS.xls",header=T,sep="\t",row.names=1)
+
+site[1:3,]
+
+length(site[site$up20_TC>=0.65 & site$up20_T>=0.3 & site$SS3_MAXENT>7 & site$rSS5_MAXENT>10,][,1])
+length(hs6st3[hs6st3$up20_TC>=0.65 & hs6st3$up20_T>=0.3 & hs6st3$SS3_MAXENT>7 & hs6st3$rSS5_MAXENT>10,][,1])
+length(intron[intron$up20_TC>=0.65 & intron$up20_T>=0.3 & intron$SS3_MAXENT>7 & intron$rSS5_MAXENT>10,][,1])
+
+length(site[site$up20_TC>=0.65 & site$up20_T>=0.3 & site$SS3_MAXENT>7 & site$rSS5_MAXENT>8,][,1])
+length(hs6st3[hs6st3$up20_TC>=0.65 & hs6st3$up20_T>=0.3 & hs6st3$SS3_MAXENT>7 & hs6st3$rSS5_MAXENT>8,][,1])
+length(intron[intron$up20_TC>=0.65 & intron$up20_T>=0.3 & intron$SS3_MAXENT>7 & intron$rSS5_MAXENT>8,][,1])
+
+length(site[site$up20_TC>=0.65 & site$up20_T>=0.3 & site$SS3_MAXENT>7 & site$rSS5_MAXENT>10,][,1])
+length(hs6st3[hs6st3$up20_TC>=0.65 & hs6st3$up20_T>=0.3 & hs6st3$SS3_MAXENT>7 & hs6st3$rSS5_MAXENT>10,][,1])
+length(intron[intron$up20_TC>=0.65 & intron$up20_T>=0.3 & intron$SS3_MAXENT>7 & intron$rSS5_MAXENT>10,][,1])
+
+

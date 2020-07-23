@@ -1,0 +1,37 @@
+total <- read.table("Result/FPKM_merged_exonic_gene_Jerry_RS.xls",header=T,row.names=1,sep="\t")
+
+library("pheatmap")
+library("RColorBrewer")
+
+pheatmap(total,cluster_rows = FALSE,cluster_cols=FALSE, color = colorRampPalette(brewer.pal(n = 7, name ="Blues"))(40),breaks = seq(1,40,length.out = 40))
+pheatmap(total,cluster_rows = FALSE,cluster_cols=FALSE, color = colorRampPalette(brewer.pal(n = 7, name ="Greens"))(40),breaks = seq(1,40,length.out = 40))
+
+
+png("Result/RS_gene_FPKM_heatmap2.png")
+pheatmap(total,cluster_rows = FALSE,cluster_cols=FALSE, color = colorRampPalette(brewer.pal(n = 7, name ="Greens"))(40),breaks = seq(1,40,length.out = 40))
+dev.off()
+
+
+total
+#                            Exc1  Exc2  Exc3  Exc4  Ihn1  Inh2  Inh3  Inh4 Female1 Female2
+# ENSMUSG00000000305_Cdh4    3.67  2.53  4.21  4.03  7.80  7.40  5.90  7.11    3.65    3.13
+# ENSMUSG00000062184_Hs6st2  5.15  6.65  6.90  7.39  7.07  4.95  7.00  6.96    7.16    6.33
+# ENSMUSG00000021699_Pde4d  25.41 25.07 21.25 24.33 18.88 22.94 21.41 21.22   18.88   19.68
+# ENSMUSG00000061080_Lsamp  20.75 22.64 21.69 27.49 43.66 57.57 67.46 53.24   24.46   23.52
+# ENSMUSG00000053519_Kcnip1  1.63  1.50  1.97  2.18 33.08 41.51 43.60 36.68    1.29    1.58
+
+cdh4 <- data.frame(Type=c("male","male","male","male","female","female"),
+                   RPM=c(3.67, 2.53, 4.21, 4.03, 3.65, 3.13))
+t.test(c(3.67, 2.53, 4.21, 4.03),c(3.65, 3.13),alternative="greater") ## male > female, p-value = 0.3284
+png("Result/RS_gene_FPKM_boxplot_Cdh4.png")
+boxplot(cdh4$RPM~factor(cdh4$Type,levels=c("male","female")), col=rgb(255,184,95,max=255),ylim=c(2,5))
+dev.off()
+
+lsamp <- data.frame(Type=c("male","male","male","male","female","female"),
+                   RPM=c(20.75, 22.64, 21.69, 27.49, 24.46, 23.52))
+t.test(c(20.75, 22.64, 21.69, 27.49),c(24.46, 23.52),alternative="greater") ## male > female, p-value = 0.689
+png("Result/RS_gene_FPKM_boxplot_Lsamp.png")
+boxplot(lsamp$RPM~factor(lsamp$Type,levels=c("male","female")), col=rgb(255,184,95,max=255),ylim=c(20,30))
+dev.off()
+
+

@@ -1,0 +1,25 @@
+
+MaxEntScan::score5ss
+http://hollywood.mit.edu/burgelab/maxent/Xmaxentscan_scoreseq.html
+
+Yes for the four
+Use Maximum Entropy Model to score: (Check if YES,default is NO)
+Use Maximum Dependence Decomposition Model to score: (Check if YES,default is NO)
+Use First-order Markov Model to score: (Check if YES,default is NO)
+Use Weight Matrix Model to score: (Check if YES,default is NO)
+
+
+RSexon_5end_MaxEntScan_score.txt
+RSexon_3end_MaxEntScan_score.txt
+
+Manually merge: ==> RSexon_MaxEntScan_score_merged.xls
+
+
+RS_sites_MaxEntScan_score.txt
+RS_sites_3end_MaxEntScan_score.txt  ## based on junction reads, and mRNA-seq signals; then AGGT or TGGT 
+
+Manually merge: ==> RS_sites_MaxEntScan_score_merged.xls
+
+
+
+

@@ -1,0 +1,72 @@
+
+### Plot Hs6st3 junction reads
+total <- read.table("Result/02_Junction_reads/Junction_reads_count_merged_RPM.xls",header=T,row.names=1,sep="\t")
+high <- subset(total,rowSums(total[,6:21])>=1)
+dim(total) # [1] [1] 4667538     21
+dim(high)  # [1] [1] 23041    21
+write.table(high,"Result/02_Junction_reads/Junction_reads_count_merged_RPM_1.xls",sep="\t",quote=F)
+
+
+total <- read.table("Result/02_Junction_reads/Junction_reads_count_merged_RPM.xls",header=T,row.names=1,sep="\t")
+total2 <- total[,c(1:5,8:11)]
+total2[1:5,]
+nuclear <- subset(total2,rowSums(total2[,6:9]) > 0) 
+dim(total2) # [1] [1] 4667538     9
+dim(nuclear)  # [1] [1] 47030    9
+write.table(nuclear,"Result/02_Junction_reads/Junction_reads_count_merged_RPM_nuclear.xls",sep="\t",quote=F)
+
+total3 <- total[,c(1:5,10:15)]
+total3[1:5,]
+exc <- subset(total3,rowSums(total3[,6:11]) > 0)    
+dim(total3) # [1] [1] 4667538     11
+dim(exc)  # [1] [1] 45549    11
+write.table(exc,"Result/02_Junction_reads/Junction_reads_count_merged_RPM_excitatory.xls",sep="\t",quote=F)
+
+total4 <- total[,c(1:5,10,11,16:19)]
+total4[1:5,]
+inh <- subset(total4,rowSums(total4[,6:11]) > 0)    
+dim(total4) # [1] [1] 4667538     11
+dim(inh)  # [1] [1] 47534   11
+write.table(inh,"Result/02_Junction_reads/Junction_reads_count_merged_RPM_inhibitory.xls",sep="\t",quote=F)
+
+total5 <- total[,c(1:5,10,11,20,21)]
+total5[1:5,]
+female <- subset(total5,rowSums(total5[,6:9]) > 0)    
+dim(total5) # [1] [1] 4667538     9
+dim(female)  # [1] [1] 45693    9
+write.table(female,"Result/02_Junction_reads/Junction_reads_count_merged_RPM_female.xls",sep="\t",quote=F)
+
+
+
+
+# grep "intron" Junction_reads_count_merged_RPM_1.xls >Junction_reads_count_merged_RPM_1_intron.xls
+# grep "exon" Junction_reads_count_merged_RPM_1.xls >Junction_reads_count_merged_RPM_1_exon.xls
+
+# grep "Hs6st3" Junction_reads_AGNN_count_merged_RPM_1.xls
+# 14_+_119537648_ENSMUSG00000053465_Hs6st3	731475	chr14:119139119-119868885:ENSMUSG00000053465_Hs6st3_intron1	729767	-	-	0.248	0.159	0.535	0.697	0.015	0.022	0.164	0.16	0.157	0.155	0.227	0.217	0.064	0.178	0.328	0.474	AGGT
+
+data <- data.frame(Type=c("mRNA","mRNA","cell","cell","nuclear","nuclear"),
+                   RPM=c(0.015,0.022,0.248,0.159,0.535,0.697))
+data
+png("Result/02_Junction_reads/Boxplot_RPM_Hs6st3_junction_reads_mRNA_cell_nuclear.png",width = 480, height = 600)
+boxplot(data$RPM~factor(data$Type,levels=c("mRNA","cell","nuclear")), col=rgb(255,184,95,max=255),ylim=c(0,1))
+dev.off()
+
+t.test(c(0.248,0.159),c(0.535,0.697),alternative="less") ## nuclear > total, p-value = 0.03632
+#	Welch Two Sample t-test
+# 
+# data:  c(0.248, 0.159) and c(0.535, 0.697)
+# t = -4.4634, df = 1.5532, p-value = 0.03632
+# alternative hypothesis: true difference in means is less than 0
+# 95 percent confidence interval:
+#        -Inf -0.0814826
+# sample estimates:
+# mean of x mean of y 
+#    0.2035    0.6160 
+
+
+
+
+
+
+

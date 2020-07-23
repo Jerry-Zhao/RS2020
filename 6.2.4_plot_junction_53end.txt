@@ -1,0 +1,50 @@
+
+options(width=250)
+total <- read.table("Result/06_RSexon/Merged_junction_reads_5_3end_2.xls",header=T,sep="\t",row.names=1)
+total
+
+site <- total[total$Category=="RS",]
+site
+data1 <- data.frame(Type=c(rep("Up",times=length(site[,1])), rep("Down", times=length(site[,1]))),
+                   Reads=c(site$Merged_5end, site$Merged_3end))
+data1
+png("Result/06_RSexon/Boxplot_RS_UpDown_junction_reads.png",width = 480, height = 600)
+boxplot(data1$Reads~factor(data1$Type,levels=c("Up","Down")), col=rgb(0,170,160,max=255),outcol="grey70", ylim=c(0,400))
+dev.off()
+
+t.test(site$Merged_5end,site$Merged_3end,alternative="greater") ## p-value = 3.282e-05
+# 	Welch Two Sample t-test
+# 
+# data:  site$Merged_5end and site$Merged_3end
+# t = 5.0781, df = 19.113, p-value = 3.282e-05
+# alternative hypothesis: true difference in means is greater than 0
+# 95 percent confidence interval:
+#  90.23277      Inf
+# sample estimates:
+# mean of x mean of y 
+#   140.55      3.75 
+
+
+
+exon <- total[total$Category=="RSexon",]
+exon
+data2 <- data.frame(Type=c(rep("Up",times=length(exon[,1])), rep("Down", times=length(exon[,1]))),
+                   Reads=c(exon$Merged_5end, exon$Merged_3end))
+data2
+png("Result/06_RSexon/Boxplot_RSexon_UpDown_junction_reads.png",width = 480, height = 600)
+boxplot(data2$Reads~factor(data2$Type,levels=c("Up","Down")), col=rgb(0,170,160,max=255),outcol="grey70", ylim=c(0,120))
+dev.off()
+
+t.test(exon$Merged_5end,exon$Merged_3end,alternative="greater") ## p-value = 0.2931
+# 	Welch Two Sample t-test
+# 
+# data:  exon$Merged_5end and exon$Merged_3end
+# t = 0.54956, df = 34.17, p-value = 0.2931
+# alternative hypothesis: true difference in means is greater than 0
+# 95 percent confidence interval:
+#  -9.591169       Inf
+# sample estimates:
+# mean of x mean of y 
+#  36.42857  31.80952 
+
+
